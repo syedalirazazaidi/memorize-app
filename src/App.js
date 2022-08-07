@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Container, Grid, Grow } from "@mui/material";
 import { AppBarr, Typographyy } from "./styles";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 
+import { useSelector, useDispatch } from "react-redux";
+import { getPosts } from "./features/memorys/memorySlice";
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <Container maxWidth="lg">
       <AppBarr position="static">
