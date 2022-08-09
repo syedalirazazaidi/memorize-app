@@ -29,6 +29,26 @@ export const getPosts = createAsyncThunk(
   }
 );
 
+// Create memorys
+export const createPosts = createAsyncThunk(
+  "memorys/create",
+  async (memoryData, thunkAPI) => {
+    console.log(memoryData, "memoryData");
+    try {
+      // const token = thunkAPI.getState().auth.user.token;
+      return await memoryService.createPosts(memoryData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const memorySlice = createSlice({
   name: "memory",
   initialState,
@@ -37,6 +57,20 @@ export const memorySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createPosts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createPosts.fulfilled, (state, action) => {
+        console.log("PAYLOAD", action.payload);
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.memorys.push(action.payload);
+      })
+      .addCase(createPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(getPosts.pending, (state) => {
         state.isLoading = true;
       })

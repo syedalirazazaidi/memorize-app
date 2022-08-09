@@ -17,8 +17,22 @@ const getPosts = async (token) => {
   return response.data;
 };
 
+// Create new goal
+const createPosts = async (memoryData, token) => {
+  // const config = {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // };
+
+  const response = await axios.post(url, memoryData);
+
+  return response.data;
+};
+
 const memoryService = {
   getPosts,
+  createPosts,
 };
 
 export default memoryService;

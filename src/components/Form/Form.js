@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Typography, paper, TextField } from "@mui/material";
 
 import { useStyles } from "./styles";
-
+import { useDispatch, useSelector } from "react-redux";
+import { createPosts } from "../../features/memorys/memorySlice";
 function Form() {
+  const [postData, setPostData] = useState({
+    creator: "",
+    title: "",
+    message: "",
+    tags: "",
+  });
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // if (currentId === 0) {
-    //   dispatch(createPost(postData));
+    dispatch(createPosts(postData));
     //   clear();
     // } else {
     //   dispatch(updatePost(currentId, postData));
     //   clear();
     // }
   };
+  const clear = () => {};
   const classes = useStyles();
   return (
     <h1 className={classes.paper}>
@@ -32,18 +41,18 @@ function Form() {
           variant="outlined"
           label="Creator"
           fullWidth
-          // value={postData.creator}
-          // onChange={(e) =>
-          //   setPostData({ ...postData, creator: e.target.value })
-          // }
+          value={postData.creator}
+          onChange={(e) =>
+            setPostData({ ...postData, creator: e.target.value })
+          }
         />
         <TextField
           name="title"
           variant="outlined"
           label="Title"
           fullWidth
-          // value={postData.title}
-          // onChange={(e) => setPostData({ ...postData, title: e.target.value })}
+          value={postData.title}
+          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
         <TextField
           name="message"
@@ -52,30 +61,22 @@ function Form() {
           fullWidth
           multiline
           rows={4}
-          // value={postData.message}
-          // onChange={(e) =>
-          //   setPostData({ ...postData, message: e.target.value })
-          // }
+          value={postData.message}
+          onChange={(e) =>
+            setPostData({ ...postData, message: e.target.value })
+          }
         />
         <TextField
           name="tags"
           variant="outlined"
           label="Tags (coma separated)"
           fullWidth
-          // value={postData.tags}
-          // onChange={(e) =>
-          //   setPostData({ ...postData, tags: e.target.value.split(",") })
-          // }
+          value={postData.tags}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
-        <div className={classes.fileInput}>
-          {/* <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
-          /> */}
-        </div>
+
         <Button
           className={classes.buttonSubmit}
           variant="contained"
@@ -90,7 +91,7 @@ function Form() {
           variant="contained"
           color="secondary"
           size="small"
-          // onClick={clear}
+          onClick={clear}
           fullWidth
         >
           Clear
