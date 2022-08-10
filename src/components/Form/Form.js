@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Typography, paper, TextField } from "@mui/material";
 
 import { useStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { createPosts } from "../../features/memorys/memorySlice";
-function Form() {
+import { createPosts, updatePost } from "../../features/memorys/memorySlice";
+function Form({ currentId, setCurrentId }) {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -12,18 +12,33 @@ function Form() {
     tags: "",
   });
   const dispatch = useDispatch();
+  // const { memory } = useSelector((state) =>
+  //   currentId ? state.memorys.find((m) => m._id === currentId) : null
+  // );
+
+  // useEffect(() => {
+  //   if (memory) setPostData(memory);
+  // }, [memory]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // if (currentId === 0) {
-    dispatch(createPosts(postData));
-    //   clear();
-    // } else {
-    //   dispatch(updatePost(currentId, postData));
-    //   clear();
-    // }
+    if (currentId === 0) {
+      dispatch(createPosts(postData));
+    } else {
+      dispatch(updatePost(currentId, postData));
+    }
+    clear();
   };
-  const clear = () => {};
+
+  const clear = () => {
+    setCurrentId(0);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+    });
+  };
+
   const classes = useStyles();
   return (
     <h1 className={classes.paper}>
@@ -34,7 +49,7 @@ function Form() {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">
-          {/* {currentId ? `Editing "${post.title}"` : "Creating a Memory"} */}
+          {currentId ? `Editing "${postData.title}"` : "Creating a Memory"}
         </Typography>
         <TextField
           name="creator"

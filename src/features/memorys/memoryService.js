@@ -30,9 +30,23 @@ const createPosts = async (memoryData, token) => {
   return response.data;
 };
 
+const updatePost = async (memoryData, token, id) => {
+  console.log(id, "bbbbbbbbbbbbbb");
+  // const config = {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // };
+
+  const response = await axios.update(`{url}/${id}`, memoryData);
+
+  return response.data;
+};
+
 const memoryService = {
   getPosts,
   createPosts,
+  updatePost,
 };
 
 export default memoryService;

@@ -33,10 +33,31 @@ export const getPosts = createAsyncThunk(
 export const createPosts = createAsyncThunk(
   "memorys/create",
   async (memoryData, thunkAPI) => {
-    console.log(memoryData, "memoryData");
+    console.log(memoryData, ">>>>");
     try {
       // const token = thunkAPI.getState().auth.user.token;
       return await memoryService.createPosts(memoryData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Update memory
+
+export const updatePost = createAsyncThunk(
+  "memorys/update",
+  async (currentId, postData, thunkAPI) => {
+    console.log(postData, "------:------", currentId);
+    try {
+      // const token = thunkAPI.getState().auth.user.token;
+      return await memoryService.updatePost(postData, currentId);
     } catch (error) {
       const message =
         (error.response &&
@@ -61,7 +82,6 @@ export const memorySlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createPosts.fulfilled, (state, action) => {
-        console.log("PAYLOAD", action.payload);
         state.isLoading = false;
         state.isSuccess = true;
         state.memorys.push(action.payload);
@@ -80,6 +100,23 @@ export const memorySlice = createSlice({
         state.memorys = action.payload;
       })
       .addCase(getPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(updatePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updatePost.fulfilled, (state, { payload }) => {
+        console.log(payload, "payload");
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.memorys = state.memorys.map(
+          (memory) => console.log(memory, "*****")
+          // memory._id === action.payload._id ? action.payload : memory
+        );
+      })
+      .addCase(updatePost.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

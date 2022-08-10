@@ -6,7 +6,6 @@ import {
   CardMedia,
   Button,
   Typography,
-  SliderThumb,
 } from "@mui/material";
 import moment from "moment";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -14,8 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import { useStyles } from "./styles";
-function Post({ post }) {
-  const setCurrentId = () => {};
+function Post({ post, setCurrentId }) {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
