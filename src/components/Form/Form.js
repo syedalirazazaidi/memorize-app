@@ -9,8 +9,6 @@ function Form({ currentId, setCurrentId }) {
     currentId ? state.memorys.memorys.find((m) => m._id === currentId) : null
   );
 
-  // currentId ? state.memorys.find((m) => m._id === currentId) : null
-
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -18,12 +16,6 @@ function Form({ currentId, setCurrentId }) {
     tags: "",
   });
   const dispatch = useDispatch();
-  // const { memorys } = useSelector((state) => state.memorys);
-  // if (currentId) {
-  //   memorys.filter((m) => m._id === currentId);
-  // }
-
-  // console.log("mem", memory);
   useEffect(() => {
     if (memory) setPostData(memory);
   }, [memory]);

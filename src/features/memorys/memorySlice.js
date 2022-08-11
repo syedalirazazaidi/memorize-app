@@ -1,4 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  CREATE,
+  DELETE,
+  FETCH_ALL,
+  LIKED,
+  UPDATE,
+} from "../../constants/actionTypes";
 
 import memoryService from "./memoryService";
 
@@ -11,27 +18,22 @@ const initialState = {
 };
 
 // Get all memorys
-export const getPosts = createAsyncThunk(
-  "memorys/getAll",
-  async (_, thunkAPI) => {
-    try {
-      //   const token = thunkAPI.getState().auth.user.token;
-      return await memoryService.getPosts();
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
+export const getPosts = createAsyncThunk(FETCH_ALL, async (_, thunkAPI) => {
+  try {
+    //   const token = thunkAPI.getState().auth.user.token;
+    return await memoryService.getPosts();
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
   }
-);
+});
 
 // Create memorys
 export const createPosts = createAsyncThunk(
-  "memorys/create",
+  CREATE,
   async (memoryData, thunkAPI) => {
     try {
       // const token = thunkAPI.getState().auth.user.token;
@@ -51,7 +53,7 @@ export const createPosts = createAsyncThunk(
 // Update memory
 
 export const updatePost = createAsyncThunk(
-  "memorys/update",
+  UPDATE,
   async (currentId, postData, thunkAPI) => {
     try {
       // const token = thunkAPI.getState().auth.user.token;
@@ -69,43 +71,33 @@ export const updatePost = createAsyncThunk(
   }
 );
 
-export const likePost = createAsyncThunk(
-  "memorys/like",
-  async (currentId, thunkAPI) => {
-    try {
-      // const token = thunkAPI.getState().auth.user.token;
-      return await memoryService.likedPosted(currentId);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      console.log(error);
-      return thunkAPI.rejectWithValue(message);
-    }
+export const likePost = createAsyncThunk(LIKED, async (currentId, thunkAPI) => {
+  try {
+    // const token = thunkAPI.getState().auth.user.token;
+    return await memoryService.likedPosted(currentId);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    console.log(error);
+    return thunkAPI.rejectWithValue(message);
   }
-);
+});
 
-export const deletePost = createAsyncThunk(
-  "memorys/delete",
-  async (Id, thunkAPI) => {
-    try {
-      // const token = thunkAPI.getState().auth.user.token;
-      return await memoryService.deletePosted(Id);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      console.log(error);
-      return thunkAPI.rejectWithValue(message);
-    }
+export const deletePost = createAsyncThunk(DELETE, async (Id, thunkAPI) => {
+  try {
+    // const token = thunkAPI.getState().auth.user.token;
+    return await memoryService.deletePosted(Id);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    console.log(error);
+    return thunkAPI.rejectWithValue(message);
   }
-);
+});
 
 export const memorySlice = createSlice({
   name: "memory",

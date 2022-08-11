@@ -4,12 +4,6 @@ const url = "http://localhost:5000/posts";
 
 // Get user goals
 const getPosts = async (token) => {
-  //   const config = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
-
   const response = await axios.get(url);
 
   return response.data;
@@ -17,12 +11,6 @@ const getPosts = async (token) => {
 
 // Create new goal
 const createPosts = async (memoryData, token) => {
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
-
   const response = await axios.post(url, memoryData);
 
   return response.data;
