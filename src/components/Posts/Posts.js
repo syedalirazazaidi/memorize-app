@@ -10,7 +10,6 @@ function Posts({ setCurrentId }) {
     (state) => state.memorys
   );
   const classes = useStyles();
-  console.log(memorys, "mememorysmorys");
   return !memorys.length ? (
     <CircularProgress />
   ) : (

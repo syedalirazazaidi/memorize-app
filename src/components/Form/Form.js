@@ -5,6 +5,12 @@ import { useStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { createPosts, updatePost } from "../../features/memorys/memorySlice";
 function Form({ currentId, setCurrentId }) {
+  const memory = useSelector((state) =>
+    currentId ? state.memorys.memorys.find((m) => m._id === currentId) : null
+  );
+
+  // currentId ? state.memorys.find((m) => m._id === currentId) : null
+
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -12,19 +18,21 @@ function Form({ currentId, setCurrentId }) {
     tags: "",
   });
   const dispatch = useDispatch();
-  // const { memory } = useSelector((state) =>
-  //   currentId ? state.memorys.find((m) => m._id === currentId) : null
-  // );
+  // const { memorys } = useSelector((state) => state.memorys);
+  // if (currentId) {
+  //   memorys.filter((m) => m._id === currentId);
+  // }
 
-  // useEffect(() => {
-  //   if (memory) setPostData(memory);
-  // }, [memory]);
+  // console.log("mem", memory);
+  useEffect(() => {
+    if (memory) setPostData(memory);
+  }, [memory]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentId === 0) {
       dispatch(createPosts(postData));
     } else {
-      dispatch(updatePost(currentId, postData));
+      dispatch(updatePost({ currentId, postData }));
     }
     clear();
   };

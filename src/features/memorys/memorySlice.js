@@ -33,7 +33,6 @@ export const getPosts = createAsyncThunk(
 export const createPosts = createAsyncThunk(
   "memorys/create",
   async (memoryData, thunkAPI) => {
-    console.log(memoryData, ">>>>");
     try {
       // const token = thunkAPI.getState().auth.user.token;
       return await memoryService.createPosts(memoryData);
@@ -54,10 +53,9 @@ export const createPosts = createAsyncThunk(
 export const updatePost = createAsyncThunk(
   "memorys/update",
   async (currentId, postData, thunkAPI) => {
-    console.log(postData, "------:------", currentId);
     try {
       // const token = thunkAPI.getState().auth.user.token;
-      return await memoryService.updatePost(postData, currentId);
+      return await memoryService.updatePosted(postData, currentId);
     } catch (error) {
       const message =
         (error.response &&
@@ -65,6 +63,7 @@ export const updatePost = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      console.log(error);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -108,12 +107,10 @@ export const memorySlice = createSlice({
         state.isLoading = true;
       })
       .addCase(updatePost.fulfilled, (state, { payload }) => {
-        console.log(payload, "payload");
         state.isLoading = false;
         state.isSuccess = true;
-        state.memorys = state.memorys.map(
-          (memory) => console.log(memory, "*****")
-          // memory._id === action.payload._id ? action.payload : memory
+        state.memorys = state.memorys.map((memory) =>
+          memory._id === payload._id ? payload : memory
         );
       })
       .addCase(updatePost.rejected, (state, action) => {

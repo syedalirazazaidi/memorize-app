@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// const API_URL = "/api/memorys/";
-
 const url = "http://localhost:5000/posts";
 
 // Get user goals
@@ -30,23 +28,31 @@ const createPosts = async (memoryData, token) => {
   return response.data;
 };
 
-const updatePost = async (memoryData, token, id) => {
-  console.log(id, "bbbbbbbbbbbbbb");
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
-
-  const response = await axios.update(`{url}/${id}`, memoryData);
+const updatePosted = async (id, memoryData) => {
+  const { currentId, postData } = memoryData;
+  const response = await axios.patch(`${url}/${currentId}`, postData);
 
   return response.data;
 };
 
+// const updatePosted = async (memoryData, token, id) => {
+//   const { currentId, postData } = memoryData;
+//   console.log(currentId, "lllllllllllllllllllll", postData);
+//   const config = {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   };
+
+//   const response = await axios.patch(`{url}/${id}`, memoryData);
+
+//   return response.data;
+// };
+
 const memoryService = {
   getPosts,
   createPosts,
-  updatePost,
+  updatePosted,
 };
 
 export default memoryService;
