@@ -69,6 +69,44 @@ export const updatePost = createAsyncThunk(
   }
 );
 
+export const likePost = createAsyncThunk(
+  "memorys/like",
+  async (currentId, thunkAPI) => {
+    try {
+      // const token = thunkAPI.getState().auth.user.token;
+      return await memoryService.likedPosted(currentId);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "memorys/delete",
+  async (Id, thunkAPI) => {
+    try {
+      // const token = thunkAPI.getState().auth.user.token;
+      return await memoryService.deletePosted(Id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const memorySlice = createSlice({
   name: "memory",
   initialState,
@@ -114,6 +152,36 @@ export const memorySlice = createSlice({
         );
       })
       .addCase(updatePost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(deletePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deletePost.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.memorys = state.memorys.filter(
+          (memory) => memory._id !== payload._id
+        );
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(likePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(likePost.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.memorys = state.memorys.map((memory) =>
+          memory._id === payload._id ? payload : memory
+        );
+      })
+      .addCase(likePost.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -11,9 +11,11 @@ import moment from "moment";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-
+import { useDispatch } from "react-redux";
 import { useStyles } from "./styles";
+import { deletePost, likePost } from "../../../features/memorys/memorySlice";
 function Post({ post, setCurrentId }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -55,14 +57,14 @@ function Post({ post, setCurrentId }) {
         <Button
           size="small"
           color="primary"
-          // onClick={() => dispatch(likePost(post._id))}
+          onClick={() => dispatch(likePost(post._id))}
         >
           <ThumbUpAltIcon fontSize="small" /> Like {post.likeCount}{" "}
         </Button>
         <Button
           size="small"
           color="primary"
-          // onClick={() => dispatch(deletePost(post._id))}
+          onClick={() => dispatch(deletePost(post._id))}
         >
           <DeleteIcon fontSize="small" /> Delete
         </Button>

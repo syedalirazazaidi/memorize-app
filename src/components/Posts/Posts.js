@@ -6,9 +6,7 @@ import { CircularProgress, Grid } from "@mui/material";
 function Posts({ setCurrentId }) {
   // const navigate = useNavigate();
   // const dispatch = useDispatch();
-  const { memorys, isLoading, isError, message } = useSelector(
-    (state) => state.memorys
-  );
+  const { memorys } = useSelector((state) => state.memorys);
   const classes = useStyles();
   return !memorys.length ? (
     <CircularProgress />

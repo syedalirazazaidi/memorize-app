@@ -35,24 +35,25 @@ const updatePosted = async (id, memoryData) => {
   return response.data;
 };
 
-// const updatePosted = async (memoryData, token, id) => {
-//   const { currentId, postData } = memoryData;
-//   console.log(currentId, "lllllllllllllllllllll", postData);
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
+// Delete user memory
+const deletePosted = async (id, token) => {
+  const response = await axios.delete(`${url}/${id}`);
 
-//   const response = await axios.patch(`{url}/${id}`, memoryData);
+  return response.data;
+};
 
-//   return response.data;
-// };
+// liked the post
+const likedPosted = async (id, token) => {
+  const response = await axios.patch(`${url}/${id}/likePost`);
+  return response.data;
+};
 
 const memoryService = {
   getPosts,
   createPosts,
   updatePosted,
+  deletePosted,
+  likedPosted,
 };
 
 export default memoryService;

@@ -57,7 +57,7 @@ function Form({ currentId, setCurrentId }) {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">
-          {currentId ? `Editing "${postData.title}"` : "Creating a Memory"}
+          {currentId ? `Editing ` : "Creating "} a memory
         </Typography>
         <TextField
           name="creator"
