@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Container, Grid, Grow } from "@mui/material";
-import { AppBarr, Typographyy } from "./styles";
+// import { AppBarr, Typographyy } from "./styles";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getPosts } from "./features/memorys/memorySlice";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,11 +19,12 @@ function App() {
 
   return (
     <Container maxWidth="lg">
-      <AppBarr position="static">
+      <Navbar />
+      {/* <AppBarr position="static">
         <Typographyy variant="h2" align="center">
           Memories
         </Typographyy>
-      </AppBarr>
+      </AppBarr> */}
       <Grow in>
         <Container>
           <Grid
