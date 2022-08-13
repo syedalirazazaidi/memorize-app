@@ -15,6 +15,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useStyles } from "./styles";
 import Input from "./Input";
 import Icon from "./Icon";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
