@@ -1,10 +1,11 @@
-import { AppBar, Typography } from "@mui/material";
+import { AppBar, Typography, Toolbar, Avatar, Button } from "@mui/material";
 import React from "react";
-import {Link} from 'react-'
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useStyles } from "./styles";
 const Navbar = () => {
   const classes = useStyles();
+  const user = null;
+  const logout = () => {};
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
@@ -12,14 +13,13 @@ const Navbar = () => {
           component={Link}
           to="/"
           className={classes.heading}
-          variant="h2"
+          variant="h5"
           align="center"
         >
           Memories
         </Typography>
-        {/* <img className={classes.image} src={memories} alt="icon" height="60" /> */}
       </div>
-      {/* <Toolbar className={classes.toolbar}>
+      <Toolbar className={classes.toolbar}>
         {user?.result ? (
           <div className={classes.profile}>
             <Avatar
@@ -51,7 +51,7 @@ const Navbar = () => {
             Sign In
           </Button>
         )}
-      </Toolbar> */}
+      </Toolbar>
     </AppBar>
   );
 };
