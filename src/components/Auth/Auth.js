@@ -8,13 +8,14 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
+import { useDispatch } from "react-redux";
 import { useStyles } from "./styles";
 import Input from "./Input";
 import Icon from "./Icon";
+import { signin, signup } from "../../features/auth/authSlice";
 
 const initialState = {
   firstName: "",
@@ -24,12 +25,23 @@ const initialState = {
   confirmPassword: "",
 };
 const Auth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const [form, setForm] = useState(initialState);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signup(form, navigate));
+    } else {
+      dispatch(signin(form, navigate));
+    }
+  };
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
   const switchMode = () => {
     setIsSignup((prevIsSignUp) => !prevIsSignUp);
     handleShowPassword(false);
