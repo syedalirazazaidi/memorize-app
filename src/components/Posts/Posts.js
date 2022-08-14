@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 import { useStyles } from "./styles";
 import { CircularProgress, Grid } from "@mui/material";
 function Posts({ setCurrentId }) {
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
   const { memorys } = useSelector((state) => state.memorys);
   const classes = useStyles();
   return !memorys.length ? (

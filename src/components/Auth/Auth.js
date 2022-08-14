@@ -27,7 +27,7 @@ const initialState = {
 const Auth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const [isSignup, setIsSignup] = useState(false);
   const [form, setForm] = useState(initialState);
   const handleShowPassword = () => setShowPassword(!showPassword);
@@ -35,9 +35,10 @@ const Auth = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSignup) {
-      dispatch(signup(form, navigate));
+      dispatch(signup(form));
+      navigate("/");
     } else {
-      dispatch(signin(form, navigate));
+      dispatch(signin(form));
     }
   };
   const handleChange = (e) =>

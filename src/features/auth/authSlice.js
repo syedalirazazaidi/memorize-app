@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { LOGIN, LOGOUT, REGISTER } from "../../constants/actionTypes";
+import { LOGOUT, SIGNIN, SIGNUP } from "../../constants/actionTypes";
 import authService from "./authServices";
 
 // Get user from localStorage
@@ -13,25 +13,20 @@ const initialState = {
   message: "",
 };
 // Register user
-export const signup = createAsyncThunk(
-  REGISTER,
-  async (user, navigate, thunkAPI) => {
-    try {
-      return await authService.register(user, navigate);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
+export const signup = createAsyncThunk(SIGNUP, async (user, thunkAPI) => {
+  try {
+    return await authService.register(user);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
   }
-);
+});
 
 // Login user
-export const signin = createAsyncThunk(LOGIN, async (user, thunkAPI) => {
+export const signin = createAsyncThunk(SIGNIN, async (user, thunkAPI) => {
   try {
     return await authService.login(user);
   } catch (error) {
@@ -63,11 +58,10 @@ export const authSlice = createSlice({
       .addCase(signup.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signup.fulfilled, (state, action) => {
-        console.log(action.payload, "ACTION_PAYLOAD");
+      .addCase(signup.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.user = payload;
       })
       .addCase(signup.rejected, (state, action) => {
         state.isLoading = false;
@@ -78,10 +72,11 @@ export const authSlice = createSlice({
       .addCase(signin.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signin.fulfilled, (state, action) => {
+      .addCase(signin.fulfilled, (state, { payload }) => {
+        console.log(payload, "SIGN IN");
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.user = payload;
       })
       .addCase(signin.rejected, (state, action) => {
         state.isLoading = false;
