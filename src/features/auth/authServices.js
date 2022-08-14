@@ -1,11 +1,10 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/posts";
-
+const API_URL = axios.create({ baseURL: "http://localhost:5000" });
 // Register user
 const register = async (userData, navigate) => {
-  console.log(userData, "F>>>>", navigate);
-  const response = await axios.post(API_URL, userData);
+  const response = await API_URL.post("/users/signup", userData);
+  console.log(response.data, "RESP##");
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
@@ -16,7 +15,7 @@ const register = async (userData, navigate) => {
 
 // Login user
 const login = async (userData) => {
-  const response = await axios.post(API_URL + "login", userData);
+  const response = await API_URL.post("/users/signin", userData);
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
