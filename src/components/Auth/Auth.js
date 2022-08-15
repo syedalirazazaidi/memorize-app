@@ -39,6 +39,7 @@ const Auth = () => {
       navigate("/");
     } else {
       dispatch(signin(form));
+      navigate("/");
     }
   };
   const handleChange = (e) =>

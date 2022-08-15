@@ -5,12 +5,16 @@ import { useStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { createPosts, updatePost } from "../../features/memorys/memorySlice";
 function Form({ currentId, setCurrentId }) {
+  // const user = JSON.parse(localStorage.getItem("user"));
+  // console.log(user, "MOOMO");
+
+  const { user } = useSelector((state) => state.user);
+
   const memory = useSelector((state) =>
     currentId ? state.memorys.memorys.find((m) => m._id === currentId) : null
   );
 
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -22,7 +26,8 @@ function Form({ currentId, setCurrentId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (currentId === 0) {
-      dispatch(createPosts(postData));
+      // dispatch(createPosts(postData));
+      dispatch(createPosts({ ...postData, name: user?.result?.name }));
     } else {
       dispatch(updatePost({ currentId, postData }));
     }
@@ -32,7 +37,6 @@ function Form({ currentId, setCurrentId }) {
   const clear = () => {
     setCurrentId(0);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
@@ -51,16 +55,7 @@ function Form({ currentId, setCurrentId }) {
         <Typography variant="h6">
           {currentId ? `Editing ` : "Creating "} a memory
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
+
         <TextField
           name="title"
           variant="outlined"

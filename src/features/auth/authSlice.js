@@ -73,7 +73,6 @@ export const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(signin.fulfilled, (state, { payload }) => {
-        console.log(payload, "SIGN IN");
         state.isLoading = false;
         state.isSuccess = true;
         state.user = payload;
