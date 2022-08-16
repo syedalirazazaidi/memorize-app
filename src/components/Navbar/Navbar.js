@@ -2,19 +2,27 @@ import { AppBar, Typography, Toolbar, Avatar, Button } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useStyles } from "./styles";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
+  const location = useLocation();
+
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
+  // const { user } = useSelector((state) => state.user);
 
   const logOut = () => {
     dispatch(logout());
     navigate("/");
   };
+  React.useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, [location]);
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
