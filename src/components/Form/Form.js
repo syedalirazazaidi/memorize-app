@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, Typography, TextField } from "@mui/material";
+import { Button, Typography, TextField, Paper } from "@mui/material";
 
 import { useStyles } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { createPosts, updatePost } from "../../features/memorys/memorySlice";
 function Form({ currentId, setCurrentId }) {
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // console.log(user, "MOOMO");
-
-  const { user } = useSelector((state) => state.user);
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const classes = useStyles();
   const memory = useSelector((state) =>
     currentId ? state.memorys.memorys.find((m) => m._id === currentId) : null
   );
@@ -29,7 +26,10 @@ function Form({ currentId, setCurrentId }) {
       // dispatch(createPosts(postData));
       dispatch(createPosts({ ...postData, name: user?.result?.name }));
     } else {
-      dispatch(updatePost({ currentId, postData }));
+      dispatch(
+        updatePost(currentId, { ...postData, name: user?.result?.name })
+      );
+      // dispatch(updatePost({ currentId, postData }));
     }
     clear();
   };
@@ -43,7 +43,15 @@ function Form({ currentId, setCurrentId }) {
     });
   };
 
-  const classes = useStyles();
+  if (!user?.result?.name) {
+    return (
+      <Paper className="classes.paper">
+        <Typography variant="h6" align="center">
+          Please Sign In to create your memory and likes other's memory
+        </Typography>
+      </Paper>
+    );
+  }
   return (
     <h1 className={classes.paper}>
       <form

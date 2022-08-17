@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { useStyles } from "./styles";
 import { deletePost, likePost } from "../../../features/memorys/memorySlice";
 function Post({ post, setCurrentId }) {
+  console.log(post.name, "NAME");
   const dispatch = useDispatch();
   const classes = useStyles();
   return (

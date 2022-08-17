@@ -16,12 +16,12 @@ const initialState = {
   isLoading: false,
   message: "",
 };
-const getToken = () => {
-  if (localStorage.getItem("user")) {
-    return JSON.parse(localStorage.getItem("user"));
-  }
-};
-const newTokn = getToken().token;
+// const getToken = () => {
+//   if (localStorage.getItem("user")) {
+//     return JSON.parse(localStorage.getItem("user"));
+//   }
+// };
+// const newTokn = getToken().token;
 
 // Get all memorys
 export const getPosts = createAsyncThunk(FETCH_ALL, async (_, thunkAPI) => {
@@ -45,7 +45,7 @@ export const createPosts = createAsyncThunk(
   async (memoryData, thunkAPI) => {
     try {
       // const token = thunkAPI.getState().auth.user.token;
-      return await memoryService.createPosts(memoryData, newTokn);
+      return await memoryService.createPosts(memoryData);
     } catch (error) {
       const message =
         (error.response &&

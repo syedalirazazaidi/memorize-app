@@ -4,6 +4,7 @@ import authService from "./authServices";
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem("user"));
+console.log(user, "USER");
 
 const initialState = {
   user: user ? user : null,
@@ -15,7 +16,9 @@ const initialState = {
 // Register user
 export const signup = createAsyncThunk(SIGNUP, async (user, thunkAPI) => {
   try {
-    return await authService.register(user);
+    const signing = await authService.register(user);
+    console.log(signing, "signing");
+    return signing;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -59,6 +62,7 @@ export const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(signup.fulfilled, (state, { payload }) => {
+        console.log(payload, "PAYLOD");
         state.isLoading = false;
         state.isSuccess = true;
         state.user = payload;

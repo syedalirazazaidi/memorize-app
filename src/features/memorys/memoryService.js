@@ -3,14 +3,15 @@ import axios from "axios";
 // const url = "http://localhost:5000/posts";
 const API_URL = axios.create({ baseURL: "http://localhost:5000" });
 
-// API_URL.interceptors.request.use((req) => {
-//   if (localStorage.getItem("user")) {
-//     req.headers.Authorization = `Bearer ${
-//       JSON.parse(localStorage.getItem("user")).token
-//     }`;
-//   }
-//   return req;
-// });
+API_URL.interceptors.request.use((req) => {
+  if (localStorage.getItem("user")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("user")).token
+    }`;
+  }
+
+  return req;
+});
 // Get user goals
 
 // if (localStorage.getItem("user")) {
@@ -25,14 +26,14 @@ const getPosts = async (token) => {
 
 // Create new goal
 const createPosts = async (memoryData, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const response = await API_URL.post("/posts", memoryData, config);
+  // const config = {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // };
+  const response = await API_URL.post("/posts", memoryData);
   // await axios.post(url, memoryData);
-  console.log(response, "RTR");
+
   return response.data;
 };
 
